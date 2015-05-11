@@ -1,0 +1,87 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Auto predict numeric or factor type variables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for autopredict-methods {GSIF}"><tr><td>autopredict-methods {GSIF}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Auto predict numeric or factor type variables</h2>
+
+<h3>Description</h3>
+
+<p>Fits either geostatistical model via the <code><a href="fit.gstatModel.html">fit.gstatModel</a></code> function (in the case of numeric variable) or a multinomial logistic regression model via the <code><a href="spmultinom.html">spmultinom</a></code> function (factor-type variable) and generates predictions.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'SpatialPointsDataFrame,SpatialPixelsDataFrame'
+autopredict(target,covariates, 
+     auto.plot=TRUE, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>target</code></td>
+<td>
+<p>object of class <code>"SpatialPointsDataFrame"</code> containing observations of the target variable</p>
+</td></tr> 
+<tr valign="top"><td><code>covariates</code></td>
+<td>
+<p>object of class <code>"SpatialPixelsDataFrame"</code>; spatial covariates</p>
+</td></tr>
+<tr valign="top"><td><code>auto.plot</code></td>
+<td>
+<p>logical; specifies whether to immediately plot the data via the plotKML function</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other optional arguments that can be passed to <code>fit.gstatModel</code> or <code>spmultinom</code></p>
+</td></tr>
+</table>
+
+
+<h3>Author(s)</h3>
+
+<p> Tomislav Hengl</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="fit.gstatModel.html">fit.gstatModel</a></code>, <code><a href="spmultinom.html">spmultinom</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+## Ebergotzen data:
+library(sp)
+library(gstat)
+library(randomForest)
+library(plotKML)
+
+## load input data:
+data(eberg)
+eberg &lt;- eberg[runif(nrow(eberg))&lt;.1,]
+coordinates(eberg) &lt;- ~X+Y
+proj4string(eberg) &lt;- CRS("+init=epsg:31467")
+data(eberg_grid)
+gridded(eberg_grid) &lt;- ~x+y
+proj4string(eberg_grid) &lt;- CRS("+init=epsg:31467")
+
+## predict sand content:
+SNDMHT_A &lt;- autopredict(eberg["SNDMHT_A"], eberg_grid,
+   auto.plot=FALSE)
+plot(SNDMHT_A)
+
+## predict soil types:
+soiltype &lt;- autopredict(eberg["soiltype"], eberg_grid, 
+  auto.plot=FALSE)
+spplot(soiltype@predicted)
+</pre>
+
+<hr><div align="center">[Package <em>GSIF</em> version 0.4-6 <a href="00Index.html">Index</a>]</div>
+</body></html>
