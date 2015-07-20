@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Fits a 2D or 3D variogram model to spatial data</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Fits a 2D or 3D variogram model to spatial data</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for fit.vgmModel-methods {GSIF}"><tr><td>fit.vgmModel-methods {GSIF}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for fit.vgmModel-methods {GSIF}"><tr><td>fit.vgmModel-methods {GSIF}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Fits a 2D or 3D variogram model to spatial data</h2>
 
@@ -19,7 +18,7 @@
 ## S4 method for signature 'formula,data.frame,SpatialPixelsDataFrame'
 fit.vgmModel(formulaString,
       rmatrix, predictionDomain, vgmFun = "Exp", 
-      dimensions = list("3D", "2D", "2D+T", "3D+T")[[1]],
+      dimensions = list("2D", "3D", "2D+T", "3D+T"),
       anis = NULL, subsample = nrow(rmatrix), ivgm, cutoff = NULL,
       width, cressie = FALSE, ...)
 </pre>
@@ -110,5 +109,5 @@ v &lt;- fit.vgmModel(om~1, rmatrix=ov, meuse.grid, dimensions="2D")
 plot(variogram(om ~ 1, meuse[!is.na(meuse$om),]), v$vgm)
 </pre>
 
-<hr><div align="center">[Package <em>GSIF</em> version 0.4-5 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.4-7 <a href="00Index.html">Index</a>]</div>
 </body></html>

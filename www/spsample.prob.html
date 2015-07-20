@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Estimate occurrence probabilities of a sampling plan (points)</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Estimate occurrence probabilities of a sampling plan (points)</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for spsample.prob {GSIF}"><tr><td>spsample.prob {GSIF}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for spsample.prob {GSIF}"><tr><td>spsample.prob {GSIF}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Estimate occurrence probabilities of a sampling plan (points)</h2>
 
@@ -56,8 +55,8 @@ spsample.prob(observations, covariates,
 
 <h3>Note</h3>
 
-<p>Occurrence probabilities for geographical space are derived using kernel density estimator. The sampling intensities are converted to probabilities by deviding the sampling intensity by the maximum sampling intensity for the study area (Baddeley, 2008). The occurrence probabilities for feature space are determined using MaxLike algorithm (Royle et al., 2012). The lower the average occurrence probability for the whole study area, the lower the representation efficiency of a sampling plan. <br> 
-MaxLike function might fail to produce predictions (e.g. if not at least one continuous covariate is provided and if the <code>optim</code> function is not able to find the global optima) in which case an error message is generated. Running Principal Component analysis i.e. standardizing the covariates prior to running <code>spsample.prob</code> is, thus, highly recommended.<br> 
+<p>Occurrence probabilities for geographical space are derived using kernel density estimator. The sampling intensities are converted to probabilities by deviding the sampling intensity by the maximum sampling intensity for the study area (Baddeley, 2008). The occurrence probabilities for feature space are determined using MaxLike algorithm (Royle et al., 2012). The lower the average occurrence probability for the whole study area, the lower the representation efficiency of a sampling plan. <br /> 
+MaxLike function might fail to produce predictions (e.g. if not at least one continuous covariate is provided and if the <code>optim</code> function is not able to find the global optima) in which case an error message is generated. Running Principal Component analysis i.e. standardizing the covariates prior to running <code>spsample.prob</code> is, thus, highly recommended.<br /> 
 This function can be time consuming for large grids. 
 </p>
 
@@ -145,5 +144,5 @@ gm &lt;- fit.gstatModel(eberg.xy, fs, covs, weights=w)
 plot(gm)
 </pre>
 
-<hr><div align="center">[Package <em>GSIF</em> version 0.4-5 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.4-7 <a href="00Index.html">Index</a>]</div>
 </body></html>

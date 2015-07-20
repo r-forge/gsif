@@ -1,22 +1,22 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Supervised fuzzy _k_-means on spatial pixels</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Supervised fuzzy _k_-means on spatial pixels</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for spfkm {GSIF}"><tr><td>spfkm {GSIF}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for spfkm {GSIF}"><tr><td>spfkm {GSIF}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Supervised fuzzy <EM>k</EM>-means on spatial pixels</h2>
+<h2>Supervised fuzzy <em>k</em>-means on spatial pixels</h2>
 
 <h3>Description</h3>
 
-<p>Runs supervised fuzzy <EM>k</EM>-means (<a href="http://dx.doi.org/10.1080/13658810310001620924">Hengl et al., 2004</a>) using a list of covariates layers provided as <code>"SpatialPixelsDataFrame-class"</code> object. If class centres and variances are not provided, it first fits a multinomial logistic regression model (<code><a href="spmultinom.html">spmultinom</a></code>), then predicts the class centres and variances based on the output from the <code>nnet::multinom</code>.</p>
+<p>Runs supervised fuzzy <em>k</em>-means (<a href="http://dx.doi.org/10.1080/13658810310001620924">Hengl et al., 2004</a>) using a list of covariates layers provided as <code>"SpatialPixelsDataFrame-class"</code> object. If class centres and variances are not provided, it first fits a multinomial logistic regression model (<code><a href="spmultinom.html">spmultinom</a></code>), then predicts the class centres and variances based on the output from the <code>nnet::multinom</code>.</p>
 
 
 <h3>Usage</h3>
 
 <pre>
-## S4 method for signature 'formula,SpatialPointsDataFrame,SpatialPixelsDataFrame'
+## S4 method for signature 
+## 'formula,SpatialPointsDataFrame,SpatialPixelsDataFrame'
 spfkm(formulaString,
            observations, covariates, class.c = NULL, class.sd = NULL, fuzzy.e = 1.2)
 </pre>
@@ -54,7 +54,7 @@ spfkm(formulaString,
 
 <h3>Value</h3>
 
-<p>Returns an object of type <code>"SpatialMemberships"</code> with following slots: <code>predicted</code> (classes predicted either by the multinomial logistic regression or fuzzy <EM>k</EM>-means), <code>model</code> (the multinomial logistic regression model; if available), <code>mu</code> (memberships derived using the fuzzy <EM>k</EM>-means), <code>class.c</code> (submitted or derived class centres), <code>class.sd</code> (submitted or derived class deviations), <code>confusion</code> (confusion matrix).</p>
+<p>Returns an object of type <code>"SpatialMemberships"</code> with following slots: <code>predicted</code> (classes predicted either by the multinomial logistic regression or fuzzy <em>k</em>-means), <code>model</code> (the multinomial logistic regression model; if available), <code>mu</code> (memberships derived using the fuzzy <em>k</em>-means), <code>class.c</code> (submitted or derived class centres), <code>class.sd</code> (submitted or derived class deviations), <code>confusion</code> (confusion matrix).</p>
 
 
 <h3>Note</h3>
@@ -119,5 +119,5 @@ summary(SNDMHT.m2@regModel)
 ## End(Not run)
 </pre>
 
-<hr><div align="center">[Package <em>GSIF</em> version 0.4-3 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.4-7 <a href="00Index.html">Index</a>]</div>
 </body></html>

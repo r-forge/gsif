@@ -19,12 +19,12 @@
 extract(x, y, 
    path=".", ID = "SOURCEID", 
    method = "simple", is.pattern = FALSE, force.projection = TRUE, 
-   NAflag = "", show.progress=TRUE, ...)
+   NAflag = "", show.progress=TRUE, isFactor=FALSE, ...)
 ## S4 method for signature 'SpatialPointsDataFrame,character'
 extract(x, y, 
    path = ".", ID = "SOURCEID", 
    method = "simple", is.pattern = FALSE, force.projection = TRUE, 
-   NAflag = "", show.progress=TRUE, ...)
+   NAflag = "", show.progress=TRUE, isFactor=FALSE, ...)
 </pre>
 
 
@@ -67,6 +67,10 @@ extract(x, y,
 <td>
 <p>logical; specifies whether to display the progress bar</p>
 </td></tr>
+<tr valign="top"><td><code>isFactor</code></td>
+<td>
+<p>logical; turns aggregation on off for factor type variable</p>
+</td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
 <p>additional arguments that can be passed to the <code>raster::extract</code> function</p>
@@ -89,5 +93,5 @@ extract(x, y,
 
  <p><code>raster::extract</code>, <code><a href="warp.html">warp</a></code> </p>
 
-<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.4-4 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.4-7 <a href="00Index.html">Index</a>]</div>
 </body></html>

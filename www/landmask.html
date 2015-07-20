@@ -1,16 +1,15 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Global coarse resolution land / soil mask maps</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Global coarse resolution land / soil mask maps</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for landmask {GSIF}"><tr><td>landmask {GSIF}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for landmask {GSIF}"><tr><td>landmask {GSIF}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Global coarse resolution land / soil mask maps</h2>
 
 <h3>Description</h3>
 
-<p>Land mask showing the 1-degree cells (about 19 thousand in total) in the geographical coordinates, and the productive soils mask (areas with a positive Leaf Area Index at least once in the period 2002&ndash;2011). The land mask is based on the <a href="http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html">Global Self-consistent, Hierarchical, High-resolution Shoreline Database</a> data (GSHHS 2.1), the productive soils mask on the MODIS Leaf Area Index monthtly product (<a href="https://lpdaac.usgs.gov/lpdaac/products/modis_products_table/leaf_area_index_fraction_of_photosynthetically_active_radiation/8_day_l4_global_1km/mcd15a2">MOD15A2</a>), and the water mask is based on the <a href="http://glcf.umd.edu/data/watermask/">MOD44W</a> product. The map of the Keys to Soil Taxonomy soil suborders of the world at 20 km is based on the <a href="http://soils.usda.gov/use/worldsoils/mapindex/order.html">USDA-NRCS map of the global soil regions</a>.</p>
+<p>Land mask showing the 1-degree cells (about 19 thousand in total) in the geographical coordinates, and the productive soils mask (areas with a positive Leaf Area Index at least once in the period 2002&ndash;2011). The land mask is based on the <a href="http://www.ngdc.noaa.gov/mgg/shorelines/gshhs.html">Global Self-consistent, Hierarchical, High-resolution Shoreline Database</a> data (GSHHS 2.1), the productive soils mask on the MODIS Leaf Area Index monthtly product (<a href="https://lpdaac.usgs.gov/products/modis_products_table">MOD15A2</a>), and the water mask is based on the <a href="http://glcf.umd.edu/data/watermask/">MOD44W</a> product. The map of the Keys to Soil Taxonomy soil suborders of the world at 20 km is based on the <a href="http://www.nrcs.usda.gov/">USDA-NRCS map of the global soil regions</a>.</p>
 
 
 <h3>Usage</h3>
@@ -72,7 +71,7 @@
 <li><p> Global Self-consistent, Hierarchical, High-resolution Shoreline Database (<a href="http://en.wikipedia.org/wiki/GSHHS">http://en.wikipedia.org/wiki/GSHHS</a>)
 </p>
 </li>
-<li><p> USDA-NRCS Global Soil Regions Map (<a href="http://soils.usda.gov/use/worldsoils/">http://soils.usda.gov/use/worldsoils/</a>)
+<li><p> USDA-NRCS Global Soil Regions Map (<a href="http://www.nrcs.usda.gov/">http://www.nrcs.usda.gov/</a>)
 </p>
 </li>
 <li><p> Savtchenko, A., D. Ouzounov, S. Ahmad, J. Acker, G. Leptoukh, J. Koziana, and D. Nickless, (2004) <a href="http://dx.doi.org/10.1016/j.asr.2004.03.012">Terra and Aqua MODIS products available from NASA GES DAAC</a>. Advances in Space Research 34(4), 710-714.
@@ -99,10 +98,10 @@ data(landmask)
 gridded(landmask) &lt;- ~x+y
 proj4string(landmask) &lt;- "+proj=longlat +datum=WGS84"
 ## Not run:  ## plot maps:
-require(maps)
+library(maps)
 country.m = map('world', plot=FALSE, fill=TRUE)
 IDs &lt;- sapply(strsplit(country.m$names, ":"), function(x) x[1])
-require(maptools)
+library(maptools)
 country &lt;- as(map2SpatialPolygons(country.m, IDs=IDs), "SpatialLines")
 spplot(landmask["mask"], col.regions="grey", sp.layout=list("sp.lines", country))
 spplot(landmask["soilmask"], col.regions="grey", sp.layout=list("sp.lines", country))
@@ -115,5 +114,5 @@ summary(landmask20km$suborder)
 summary(landmask20km$soilmask)
 </pre>
 
-<hr><div align="center">[Package <em>GSIF</em> version 0.4-3 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.4-7 <a href="00Index.html">Index</a>]</div>
 </body></html>

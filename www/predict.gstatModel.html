@@ -1,10 +1,9 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Predict from an object of class '&quot;gstatModel&quot;'</title>
-<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
-<link rel="stylesheet" type="text/css" href="R.css">
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Predict from an object of class '&quot;gstatModel&quot;'</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
-<table width="100%" summary="page for predict.gstatModel-method {GSIF}"><tr><td>predict.gstatModel-method {GSIF}</td><td align="right">R Documentation</td></tr></table>
+<table width="100%" summary="page for predict.gstatModel-method {GSIF}"><tr><td>predict.gstatModel-method {GSIF}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
 <h2>Predict from an object of class <code>"gstatModel"</code></h2>
 
@@ -19,7 +18,7 @@
 ## S4 method for signature 'gstatModel'
 predict(object, 
      predictionLocations, nmin = 10, nmax = 30, debug.level = -1, 
-     predict.method = c("RK", "KED")[1], nfold = 5, verbose = FALSE, 
+     predict.method = c("RK", "KED"), nfold = 5, verbose = FALSE, 
      nsim = 0, mask.extra = TRUE, block, 
      zmin = -Inf, zmax = Inf, subsample = length(object@sp), 
      coarsening.factor = 1, vgmmodel = object@vgmModel,
@@ -27,7 +26,7 @@ predict(object,
 ## S4 method for signature 'list'
 predict(object, 
      predictionLocations, nmin = 10, nmax = 30, debug.level = -1, 
-     predict.method = c("RK", "KED")[1], nfold = 5, verbose = FALSE, 
+     predict.method = c("RK", "KED"), nfold = 5, verbose = FALSE, 
      nsim = 0, mask.extra = TRUE, block, 
      zmin = -Inf, zmax = Inf, subsample = length(object@sp), ...)
 </pre>
@@ -121,8 +120,8 @@ predict(object,
 
 <h3>Details</h3>
 
-<p>Selecting <code>predict.method = "KED"</code> invokes simple kriging with external drift with betas set at 0 (intercept) and 1 (regression predictions used as the only covariate). This assumes that the regression model already results in an unbiased estimator of the trend model.<br> 
-If not speficied otherwise, <code>subset.observations</code> by default selects only obserations within the spatial domain (bounding box) of the <code>predictionLocations</code> plus 50% of the one third of the extent of the area (<code>extend</code>). In the case of spatial duplicates in 2D or 3D, <code>subset.observations</code> will automatically remove all duplicates before running kriging. All points in 3D that stand exactly above each other will be removed by default.<br> 
+<p>Selecting <code>predict.method = "KED"</code> invokes simple kriging with external drift with betas set at 0 (intercept) and 1 (regression predictions used as the only covariate). This assumes that the regression model already results in an unbiased estimator of the trend model.<br /> 
+If not speficied otherwise, <code>subset.observations</code> by default selects only obserations within the spatial domain (bounding box) of the <code>predictionLocations</code> plus 50% of the one third of the extent of the area (<code>extend</code>). In the case of spatial duplicates in 2D or 3D, <code>subset.observations</code> will automatically remove all duplicates before running kriging. All points in 3D that stand exactly above each other will be removed by default.<br /> 
 Predictions can be speed up by using a larger <code>coarsening.factor</code> e.g. 2 to 5, in which case the ordinary kriging on residuals will run at a coarser resolution, and the output would be then downscaled to the original resolution using splines (via the <code><a href="warp.html">warp</a></code> method). In the case of <code>predict.method = RK</code>, the kriging variance is derived as a sum of the GLM variance and the OK variance, which is statistically sub-optimal.
 </p>
 
@@ -152,5 +151,5 @@ Predictions can be speed up by using a larger <code>coarsening.factor</code> e.g
  <p><code><a href="gstatModel.html">gstatModel-class</a></code>, <code><a href="fit.gstatModel.html">fit.gstatModel</a></code>
 </p>
 
-<hr><div align="center">[Package <em>GSIF</em> version 0.4-3 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.4-7 <a href="00Index.html">Index</a>]</div>
 </body></html>
