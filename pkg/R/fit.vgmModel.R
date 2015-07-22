@@ -129,6 +129,7 @@ setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.f
     try( rvgm <- gstat::fit.variogram(svgm, model=ivgm, ...) )     
     ## BK: the code below does not work for 'singular model' warnings, only when the function does not fit at all
     if(class(.Last.value)[1]=="try-error"){
+      ## try one more time:
       try( rvgm <- gstat::fit.variogram(gstat::variogram(formulaString, rmatrix, cutoff=cutoff), model=ivgm, fit.ranges = FALSE, ...) )
       if(class(.Last.value)[1]=="try-error"){    
         warning("Variogram model could not be fitted.") 

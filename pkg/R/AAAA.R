@@ -136,7 +136,7 @@ setClass("gstatModel", slots = c(regModel = "ANY", vgmModel = "data.frame", svgm
     if(!all(cn %in% names(object@vgmModel))){
       x <- cn[!(cn %in% names(object@vgmModel))]
       return(paste("Missing column names:", paste(x, collapse=", ")))
-      }
+    }
 })
 
 ### GSIF soil property maps class:
