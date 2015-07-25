@@ -8,6 +8,7 @@
 ################## prediction #########################
 ## predict values using a RK model:
 predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30, debug.level = -1, predict.method = c("RK", "KED"), nfold = 5, verbose = FALSE, nsim = 0, mask.extra = TRUE, block, zmin = -Inf, zmax = Inf, subsample = length(object@sp), coarsening.factor = 1, vgmmodel = object@vgmModel, subset.observations = !is.na(object@sp@coords[,1]), betas = c(0,1), extend = .5, ...){
+  
   predict.method <- predict.method[1]
   if(nsim<0|!is.numeric(nsim)){
     stop("To invoke conditional simulations set 'nsim' argument to a positive integer number")
@@ -95,8 +96,9 @@ predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30
   if(any(class(object@regModel)=="quantregForest")){
     if(requireNamespace("quantregForest", quietly = TRUE)){
       ## select complete observations only:
-      f <- which(stats::complete.cases(predictionLocations@data[,covs]))
-      rp <- list(predict(object@regModel, data.frame(predictionLocations)[f,covs], quantiles=.5)) 
+      fdf <- data.frame(predictionLocations)[,covs]
+      f <- which(stats::complete.cases(fdf))
+      rp <- list(predict(object@regModel, fdf[f,], quantiles=.5)) 
       variable <- attr(object@regModel$y, "name")[1]
     } else {
       rp <- NULL
@@ -194,7 +196,7 @@ predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30
   }
   if(any(class(object@regModel) %in% c("rpart", "randomForest"))){
     if(any(class(object@regModel)=="quantregForest")){
-      f0 <- which(stats::complete.cases(observed@data[,covs]))
+      f0 <- which(stats::complete.cases(data.frame(observed)[,covs]))
       observed@data[f0,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, newdata=data.frame(observed)[f0,covs], quantiles=.5)  
     } else {
       observed@data[,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, newdata=data.frame(observed),  na.action = na.pass)
