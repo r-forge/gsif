@@ -401,4 +401,8 @@ if (!isGeneric("sample.grid")){
   setGeneric("sample.grid", function(obj, cell.size, n, ...){standardGeneric("sample.grid")})
 }
 
+if(!isGeneric("buffer.dist")){
+  setGeneric("buffer.dist", function(observations, predictionDomain, ...){standardGeneric("buffer.dist")})
+}
+
 # end of script;

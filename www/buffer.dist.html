@@ -1,0 +1,141 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html><head><title>R: Derive buffer distances to a set of clustered points</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<link rel="stylesheet" type="text/css" href="R.css">
+</head><body>
+
+<table width="100%" summary="page for buffer.dist-methods {GSIF}"><tr><td>buffer.dist-methods {GSIF}</td><td align="right">R Documentation</td></tr></table>
+
+<h2>Derive buffer distances to a set of clustered points</h2>
+
+<h3>Description</h3>
+
+<p>Derives buffer distances using the <code>raster::distance</code> function, so that these can be used as predictors for spatial prediction.</p>
+
+
+<h3>Usage</h3>
+
+<pre>
+## S4 method for signature 'SpatialPointsDataFrame,SpatialPixelsDataFrame'
+functionbuffer.dist(observations, predictionDomain, classes, width, ...)
+</pre>
+
+
+<h3>Arguments</h3>
+
+<table summary="R argblock">
+<tr valign="top"><td><code>observations</code></td>
+<td>
+<p>object of class <code>"SpatialPointsDataFrame"</code> containing observations of the target variable</p>
+</td></tr> 
+<tr valign="top"><td><code>predictionDomain</code></td>
+<td>
+<p>object of class <code>"SpatialPixelsDataFrame"</code>; prediction domain for which distances are estimated</p>
+</td></tr>
+<tr valign="top"><td><code>classes</code></td>
+<td>
+<p>factor; split of the points</p>
+</td></tr>
+<tr valign="top"><td><code>width</code></td>
+<td>
+<p>numeric; maximum search radius</p>
+</td></tr>
+<tr valign="top"><td><code>...</code></td>
+<td>
+<p>other optional arguments that can be passed to <code>raster::distance</code></p>
+</td></tr>
+</table>
+
+
+<h3>Note</h3>
+
+<p>Number of breaks should be higher than the number of bins for example estimated for the histogram display (numeric resolution). Machine learning techniques can be quite sensitive to blunders / artifacts in the input point data. 
+</p>
+
+
+<h3>Author(s)</h3>
+
+<p> Tomislav Hengl</p>
+
+
+<h3>See Also</h3>
+
+ <p><code><a href="fit.gstatModel.html">fit.gstatModel</a></code> </p>
+
+
+<h3>Examples</h3>
+
+<pre>
+library(sp)
+library(raster)
+library(gstat)
+library(randomForest)
+library(quantregForest)
+library(plotKML)
+
+## Load the Meuse data set:
+demo(meuse, echo=FALSE)
+classes &lt;- cut(meuse$om, breaks=seq(0, 17, length=8))
+## are these optimal splits?
+grid.dist &lt;- buffer.dist(meuse["om"], meuse.grid[1], classes)
+plot(stack(grid.dist))
+## quantregForest as a 'replacement' for kriging:
+dn &lt;- paste(names(grid.dist), collapse="+")
+fm &lt;- as.formula(paste("om ~", dn))
+m &lt;- fit.gstatModel(meuse, fm, grid.dist, 
+    method="quantregForest")
+plot(m)
+## Residual variogram shows no spatial structure
+rk.m &lt;- predict(m, grid.dist, vgmmodel=NULL)
+plot(rk.m)
+## Not run: 
+plotKML(rk.m@predicted["om"], colour_scale = SAGA_pal[[1]])
+kml(meuse, file.name="om_points.kml", colour=om, labels=meuse$om)
+meuse$classes &lt;- classes
+plotKML(meuse["classes"])
+
+## End(Not run)
+
+## Example with zinc:
+meuse.gridT &lt;- meuse.grid
+meuse.gridT@data &lt;- cbind(meuse.grid@data, grid.dist@data)
+fm1 &lt;- as.formula(paste("om ~", dn, "+soil+dist+ffreq"))
+m1 &lt;- fit.gstatModel(meuse, fm1, meuse.gridT, 
+     method="quantregForest")
+plot(m1)
+rk.m1 &lt;- predict(m1, meuse.gridT, vgmmodel=NULL)
+plot(rk.m1)
+## Not run: 
+plotKML(rk.m1@predicted["om"], 
+   file.name="rk_combined.kml", 
+   colour_scale = SAGA_pal[[1]])
+
+## End(Not run)
+
+## Zinc:
+classes2 &lt;- cut(meuse$zinc, 
+   breaks=seq(min(meuse$zinc), max(meuse$zinc), length=10))
+grid.dist2 &lt;- buffer.dist(meuse["zinc"], meuse.grid[1], classes2)
+dn2 &lt;- paste(names(grid.dist2), collapse="+")
+meuse.gridT2 &lt;- meuse.grid
+meuse.gridT2@data &lt;- cbind(meuse.grid@data, grid.dist2@data)
+fm2 &lt;- as.formula(paste("zinc ~", dn2, "+soil+dist+ffreq"))
+m2 &lt;- fit.gstatModel(meuse, fm2, meuse.gridT2, 
+      method="quantregForest")
+rk.m2 &lt;- predict(m2, meuse.gridT2, vgmmodel=NULL)
+plot(rk.m2)
+## prediction error:
+plot(raster(rk.m2@predicted[2]))
+## Not run: 
+plotKML(rk.m2@predicted["zinc"], 
+    file.name="rk_combined_zinc.kml", 
+    colour_scale = SAGA_pal[[1]])
+kml(meuse, colour=zinc, 
+    file.name="zinc_points.kml", labels=meuse$zinc)
+kml_View("zinc_points.kml")
+
+## End(Not run)
+</pre>
+
+<hr><div align="center">[Package <em>GSIF</em> version 0.5-0 <a href="00Index.html">Index</a>]</div>
+</body></html>
