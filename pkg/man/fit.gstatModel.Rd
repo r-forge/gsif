@@ -56,6 +56,7 @@
 }
 \references{
 \itemize{
+\item Meinshausen, N. (2006). Quantile regression forests. The Journal of Machine Learning Research, 7, 983-999.
 \item chapter 8 ``Interpolation and Geostatistics'' in Bivand, R., Pebesma, E., Rubio, V., (2008) \href{http://asdar-book.org/}{Applied Spatial Data Analysis with R}. Use R Series, Springer, Heidelberg, pp. 378.
 \item Hengl, T. (2009) \href{http://spatial-analyst.net/book/}{A Practical Guide to Geostatistical Mapping}, 2nd Edt. University of Amsterdam, www.lulu.com, 291 p.
 }

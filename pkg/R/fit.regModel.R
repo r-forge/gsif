@@ -148,7 +148,7 @@ setMethod("fit.regModel", signature(formulaString = "formula", rmatrix = "data.f
       } else {
         ## TH: the quantreg package developed by Nicolai Meinshausen <meinshausen@stats.ox.ac.uk> is slower but more flexible      
         if(requireNamespace("quantregForest", quietly = TRUE)){
-          rgm <- quantregForest::quantregForest(y=eval(formulaString[[2]], rmatrix.s), x=rmatrix.s[,all.vars(formulaString)[-1]])
+          rgm <- quantregForest::quantregForest(y=eval(formulaString[[2]], rmatrix.s), x=rmatrix.s[,all.vars(formulaString)[-1]], importance=TRUE)
           attr(rgm$y, "name") <- tv
         }  
       }

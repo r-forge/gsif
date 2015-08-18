@@ -1,16 +1,16 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
-<html><head><title>R: Derive buffer distances to a set of clustered points</title>
+<html><head><title>R: Derive buffer distances to a set of points</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
 <link rel="stylesheet" type="text/css" href="R.css">
 </head><body>
 
 <table width="100%" summary="page for buffer.dist-methods {GSIF}"><tr><td>buffer.dist-methods {GSIF}</td><td align="right">R Documentation</td></tr></table>
 
-<h2>Derive buffer distances to a set of clustered points</h2>
+<h2>Derive buffer distances to a set of points</h2>
 
 <h3>Description</h3>
 
-<p>Derives buffer distances using the <code>raster::distance</code> function, so that these can be used as predictors for spatial prediction.</p>
+<p>Derive buffer distances using the <code>raster::distance</code> function, so that these can be used as predictors for spatial prediction i.e. to account for spatial proximity to low, medium and high values.</p>
 
 
 <h3>Usage</h3>
@@ -49,7 +49,7 @@ functionbuffer.dist(observations, predictionDomain, classes, width, ...)
 
 <h3>Note</h3>
 
-<p>Number of breaks should be higher than the number of bins for example estimated for the histogram display (numeric resolution). Machine learning techniques can be quite sensitive to blunders / artifacts in the input point data. 
+<p>Number of breaks (numeric resolution) should be higher than the number of bins, for example, estimated for the histogram display. Machine learning techniques can be quite sensitive to blunders / artifacts in the input point data. 
 </p>
 
 
@@ -85,12 +85,18 @@ fm &lt;- as.formula(paste("om ~", dn))
 m &lt;- fit.gstatModel(meuse, fm, grid.dist, 
     method="quantregForest")
 plot(m)
+dev.off()
 ## Residual variogram shows no spatial structure
 rk.m &lt;- predict(m, grid.dist, vgmmodel=NULL)
 plot(rk.m)
+dev.off()
+## prediction error:
+plot(sqrt(raster(rk.m@predicted[2])))
+points(meuse, pch="+")
 ## Not run: 
 plotKML(rk.m@predicted["om"], colour_scale = SAGA_pal[[1]])
 kml(meuse, file.name="om_points.kml", colour=om, labels=meuse$om)
+kml_View("om_points.kml")
 meuse$classes &lt;- classes
 plotKML(meuse["classes"])
 
@@ -101,10 +107,14 @@ meuse.gridT &lt;- meuse.grid
 meuse.gridT@data &lt;- cbind(meuse.grid@data, grid.dist@data)
 fm1 &lt;- as.formula(paste("om ~", dn, "+soil+dist+ffreq"))
 m1 &lt;- fit.gstatModel(meuse, fm1, meuse.gridT, 
-     method="quantregForest")
+     method="quantregForest", rvgm=NULL)
+## no need to fit variogram in this case
 plot(m1)
+dev.off()
 rk.m1 &lt;- predict(m1, meuse.gridT, vgmmodel=NULL)
 plot(rk.m1)
+varImpPlot(m1@regModel)
+dev.off()
 ## Not run: 
 plotKML(rk.m1@predicted["om"], 
    file.name="rk_combined.kml", 
@@ -122,8 +132,10 @@ meuse.gridT2@data &lt;- cbind(meuse.grid@data, grid.dist2@data)
 fm2 &lt;- as.formula(paste("zinc ~", dn2, "+soil+dist+ffreq"))
 m2 &lt;- fit.gstatModel(meuse, fm2, meuse.gridT2, 
       method="quantregForest")
+varImpPlot(m2@regModel)
 rk.m2 &lt;- predict(m2, meuse.gridT2, vgmmodel=NULL)
 plot(rk.m2)
+dev.off()
 ## prediction error:
 plot(raster(rk.m2@predicted[2]))
 ## Not run: 
