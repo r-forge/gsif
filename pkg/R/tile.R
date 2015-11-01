@@ -8,8 +8,8 @@
 makeTiles <- function(bb, block.x, block.y, overlap.percent, limit.bbox, columns = NULL, rows = NULL){
   
   ## number of tiles:
-  xn = ceiling(diff(bb[1,])/block.x)
-  yn = ceiling(diff(bb[2,])/block.y)
+  xn = ceiling(signif(diff(bb[1,]),5)/block.x)
+  yn = ceiling(signif(diff(bb[2,]),5)/block.y)
 
   # number of tiles:
   message(paste("Generating", xn*yn, "tiles..."))  
