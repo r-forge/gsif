@@ -4,7 +4,7 @@
 \title{Derive buffer distances to a set of points}
 \description{Derive buffer distances using the \code{raster::distance} function, so that these can be used as predictors for spatial prediction i.e. to account for spatial proximity to low, medium and high values.}
 \usage{
-\S4method{buffer.dist}{SpatialPointsDataFrame,SpatialPixelsDataFrame}function(observations, predictionDomain, classes, width, \dots)
+\S4method{buffer.dist}{SpatialPointsDataFrame,SpatialPixelsDataFrame}(observations, predictionDomain, classes, width, \dots)
 }
 \arguments{
   \item{observations}{object of class \code{"SpatialPointsDataFrame"} containing observations of the target variable} 
@@ -24,6 +24,7 @@ library(gstat)
 library(randomForest)
 library(quantregForest)
 library(plotKML)
+library(scales)
 
 ## Load the Meuse data set:
 demo(meuse, echo=FALSE)

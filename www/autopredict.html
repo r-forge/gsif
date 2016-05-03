@@ -50,7 +50,7 @@ autopredict(target,covariates,
 
 <h3>See Also</h3>
 
- <p><code><a href="fit.gstatModel.html">fit.gstatModel</a></code>, <code><a href="spmultinom.html">spmultinom</a></code> </p>
+ <p><code><a href="fit.gstatModel.html">fit.gstatModel</a></code> </p>
 
 
 <h3>Examples</h3>
@@ -59,7 +59,7 @@ autopredict(target,covariates,
 ## Ebergotzen data:
 library(sp)
 library(gstat)
-library(randomForest)
+library(ranger)
 library(plotKML)
 
 ## load input data:
@@ -82,5 +82,5 @@ soiltype &lt;- autopredict(eberg["soiltype"], eberg_grid,
 spplot(soiltype@predicted)
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.4-7 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-1 <a href="00Index.html">Index</a>]</div>
 </body></html>

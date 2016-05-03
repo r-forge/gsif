@@ -116,7 +116,9 @@ setMethod("fit.vgmModel", signature(formulaString = "formula", rmatrix = "data.f
     if(missing(ivgm)){
       if(dimensions == "2D"|dimensions == "3D"){
         ## BK: since most variograms have a nugget effect, set the initial nugget equal to the initial partial sill:
-        ivgm <- gstat::vgm(nugget=var(rmatrix@data[,tv])/5, model=vgmFun, range=Range, psill=var(rmatrix@data[,tv])*4/5, anis = anis)
+        nugget <- var(rmatrix@data[,tv])/5
+        psill <- var(rmatrix@data[,tv])*4/5
+        ivgm <- gstat::vgm(nugget=nugget, model=vgmFun, range=Range, psill=psill, anis=anis)
         #ivgm <- vgm(nugget=0, model=vgmFun, range=Range, psill=var(rmatrix@data[,tv]), anis = anis)
       }
     }

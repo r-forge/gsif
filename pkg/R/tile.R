@@ -173,8 +173,7 @@ setMethod("tile", signature(x = "SpatialPixelsDataFrame"), .subsetTiles)
       } else {
         outname <- paste(normalizeFilename(deparse(substitute(x, env = parent.frame()))), j, sep="_")
       }
-      layername <- strsplit(outname, "\\\\")[[1]]
-      layername = layername[length(layername)]
+      layername <- basename(sub("[.][^.]*$", "", outname, perl=TRUE))
       
       if(class(x)=="SpatialPolygonsDataFrame"){
         try(system(paste(program, '-where \"OGR_GEOMETRY=\'Polygon\'\" -f \"ESRI Shapefile\"', set.file.extension(outname, ".shp"), set.file.extension(tf, ".shp"), '-clipsrc',  y[j,1], y[j,2], y[j,3], y[j,4], '-skipfailures'), show.output.on.console = show.output.on.console))

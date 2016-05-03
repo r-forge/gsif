@@ -98,7 +98,7 @@ predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30
       ## select complete observations only:
       fdf <- data.frame(predictionLocations)[,covs]
       f <- which(stats::complete.cases(fdf))
-      rp <- list(predict(object@regModel, fdf[f,], quantiles=.5)) 
+      rp <- list(predict(object@regModel, fdf[f,], what=.5)) 
       variable <- attr(object@regModel$y, "name")[1]
     } else {
       rp <- NULL
@@ -114,8 +114,30 @@ predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30
       variable <- NA
     }
   }
+  if(any(class(object@regModel)=="ranger")){
+    if(requireNamespace("ranger", quietly = TRUE)){
+      ## select complete observations only:
+      covs <- object@regModel$forest$independent.variable.names
+      fdf <- data.frame(predictionLocations)[,covs]
+      f <- which(stats::complete.cases(fdf))
+      rp <- list(predict(object@regModel, fdf[f,])$predictions) 
+      variable <- names(object@sp@data)[1]
+    } else {
+      rp <- NULL
+      variable <- NA
+    }
+  }
+  if(any(class(object@regModel)=="train")){
+    if(requireNamespace("caret", quietly = TRUE)){
+      rp <- list(predict(object@regModel, fdf[f,])) 
+      variable <- names(object@sp@data)[1]
+    } else {
+      rp <- NULL
+      variable <- NA
+    }
+  }
   ## rename the target variable:   
-  if(any(class(object@regModel) %in% c("randomForest", "rpart", "gls"))){
+  if(any(class(object@regModel) %in% c("randomForest", "rpart", "gls", "caret", "ranger"))){
     names(rp)[1] = "fit"
   }
        
@@ -194,12 +216,16 @@ predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30
   if(any(class(object@regModel) %in% c("glm", "lme", "gls"))){
     observed@data[,paste(variable, "modelFit", sep=".")] <- fitted(object@regModel)[subset.observations]
   }
-  if(any(class(object@regModel) %in% c("rpart", "randomForest"))){
+  if(any(class(object@regModel) %in% c("rpart", "randomForest", "ranger", "caret"))){
+    f0 <- which(stats::complete.cases(data.frame(observed)[,covs]))
     if(any(class(object@regModel)=="quantregForest")){
-      f0 <- which(stats::complete.cases(data.frame(observed)[,covs]))
-      observed@data[f0,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, newdata=data.frame(observed)[f0,covs], quantiles=.5)  
+      observed@data[f0,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, newdata=data.frame(observed)[f0,covs], what=.5)  
     } else {
-      observed@data[,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, newdata=data.frame(observed),  na.action = na.pass)
+      if(any(class(object@regModel)=="ranger")){
+        observed@data[f0,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, data=data.frame(observed)[f0,covs])$predictions
+      } else { 
+        observed@data[,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, newdata=data.frame(observed),  na.action = na.pass)
+      }
     }
     rp[["residual.scale"]] <- sqrt(mean((observed@data[,paste(variable, "residual", sep=".")])^2, na.rm=TRUE))
     if(is.null(rp[["residual.scale"]])){ rp[["residual.scale"]] <- NA } 
@@ -300,7 +326,7 @@ predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30
             ## TH: Prediction error for randomForest
             message("Prediction error for 'randomForest' model estimated using the 'quantreg' package.")
             if(requireNamespace("quantregForest", quietly = TRUE)){
-              var.rf <- predict(object@regModel, predictionLocations@data[f,covs], quantiles=c((1-.682)/2, 1-(1-.682)/2))
+              var.rf <- predict(object@regModel, predictionLocations@data[f,covs], what=c((1-.682)/2, 1-(1-.682)/2))
               ## TH: this formula assumes that the errors follow a normal distribution! [https://en.wikipedia.org/wiki/File:Standard_deviation_diagram.svg]
               predictionLocations@data[f,"fit.var"] <- ((var.rf[,1] - var.rf[,2])/2)^2
             }

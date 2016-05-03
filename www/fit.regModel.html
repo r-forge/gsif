@@ -18,7 +18,8 @@
 ## S4 method for signature 
 ## 'formula,data.frame,SpatialPixelsDataFrame,character'
 fit.regModel(formulaString, rmatrix, predictionDomain, 
-      method = list("GLM", "rpart", "randomForest", "quantregForest", "lme"), 
+      method = list("GLM", "rpart", "randomForest", "quantregForest", "lme",
+       "xgboost", "ranger"), 
       dimensions = NULL, fit.family = gaussian(), stepwise = TRUE, rvgm, 
       GLS = FALSE, steps, subsample, subsample.reg, ...)
 </pre>
@@ -107,6 +108,9 @@ library(nlme)
 library(gstat)
 library(randomForest)
 library(quantregForest)
+library(xgboost)
+library(caret)
+library(scales)
 
 ## load the Meuse data set:
 demo(meuse, echo=FALSE)
@@ -146,7 +150,15 @@ plot(m4b)
 m5 &lt;- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="quantregForest")
 plot(m5)
+## ranger
+m6 &lt;- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
+     method="ranger")
+plot(m6)
+## XGBoost
+m7 &lt;- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
+     method="xgboost")
+plot(m7)
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.4-7 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-1 <a href="00Index.html">Index</a>]</div>
 </body></html>
