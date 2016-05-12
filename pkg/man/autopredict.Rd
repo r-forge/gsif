@@ -21,6 +21,8 @@ library(sp)
 library(gstat)
 library(ranger)
 library(plotKML)
+library(psych)
+library(mda)
 
 ## load input data:
 data(eberg)

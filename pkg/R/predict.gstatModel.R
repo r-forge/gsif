@@ -98,7 +98,7 @@ predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30
       ## select complete observations only:
       fdf <- data.frame(predictionLocations)[,covs]
       f <- which(stats::complete.cases(fdf))
-      rp <- list(predict(object@regModel, fdf[f,], what=.5)) 
+      rp <- list(predict(object@regModel, fdf[f,], .5)) 
       variable <- attr(object@regModel$y, "name")[1]
     } else {
       rp <- NULL
@@ -219,7 +219,7 @@ predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30
   if(any(class(object@regModel) %in% c("rpart", "randomForest", "ranger", "caret"))){
     f0 <- which(stats::complete.cases(data.frame(observed)[,covs]))
     if(any(class(object@regModel)=="quantregForest")){
-      observed@data[f0,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, newdata=data.frame(observed)[f0,covs], what=.5)  
+      observed@data[f0,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, newdata=data.frame(observed)[f0,covs], .5)  
     } else {
       if(any(class(object@regModel)=="ranger")){
         observed@data[f0,paste(variable, "modelFit", sep=".")] <- predict(object@regModel, data=data.frame(observed)[f0,covs])$predictions
@@ -326,7 +326,7 @@ predict.gstatModel <- function(object, predictionLocations, nmin = 10, nmax = 30
             ## TH: Prediction error for randomForest
             message("Prediction error for 'randomForest' model estimated using the 'quantreg' package.")
             if(requireNamespace("quantregForest", quietly = TRUE)){
-              var.rf <- predict(object@regModel, predictionLocations@data[f,covs], what=c((1-.682)/2, 1-(1-.682)/2))
+              var.rf <- predict(object@regModel, predictionLocations@data[f,covs], c((1-.682)/2, 1-(1-.682)/2))
               ## TH: this formula assumes that the errors follow a normal distribution! [https://en.wikipedia.org/wiki/File:Standard_deviation_diagram.svg]
               predictionLocations@data[f,"fit.var"] <- ((var.rf[,1] - var.rf[,2])/2)^2
             }

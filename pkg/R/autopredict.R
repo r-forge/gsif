@@ -1,5 +1,5 @@
 # Purpose        : Automate prediction of soil properties / soil types;
-# Maintainer     : Tomislav Hengl (tom.hengl@wur.nl)
+# Maintainer     : Tomislav Hengl (tom.hengl@isric.org)
 # Contributions  : ;
 # Dev Status     : Pre-Alpha
 # Note           : ;
