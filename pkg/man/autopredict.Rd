@@ -1,5 +1,6 @@
 \name{autopredict-methods}
 \alias{autopredict}
+\alias{makePixels}
 \alias{autopredict,SpatialPointsDataFrame,SpatialPixelsDataFrame-method}
 \title{Auto predict numeric or factor type variables}
 \description{Fits either geostatistical model via the \code{\link{fit.gstatModel}} function (in the case of numeric variable) or a multinomial logistic regression model via the \code{\link{spmultinom}} function (factor-type variable) and generates predictions.}

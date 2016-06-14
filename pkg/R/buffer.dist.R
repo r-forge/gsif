@@ -10,8 +10,13 @@ setMethod("buffer.dist", signature(observations = "SpatialPointsDataFrame", pred
   if(!length(classes)==length(observations)){ stop("Length of 'observations' and 'classes' does not match.") }
   s <- list(NULL)
   for(i in 1:length(levels(classes))){
-    s[[i]] <- distance(rasterize(observations[which(classes==levels(classes)[i]),1]@coords, y=raster(predictionDomain)), width=width, ...)
+    pnts <- observations[which(classes==levels(classes)[i]),1]@coords
+    if(!is.null(pnts)&nrow(pnts)>0){
+      r <- rasterize(pnts, y=raster(predictionDomain))
+      s[[i]] <- distance(r, width=width, ...)
+    }
   }
+  s <- s[sapply(s, function(x){!is.null(x)})]
   s <- brick(s)
   s <- as(s, "SpatialPixelsDataFrame")
   s <- s[predictionDomain@grid.index,]
