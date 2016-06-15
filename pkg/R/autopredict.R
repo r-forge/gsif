@@ -35,10 +35,11 @@ setMethod("autopredict", signature(target = "SpatialPointsDataFrame", covariates
 })
 
 
-makePixels <- function(x, y, factors, pixel.size=1e2, t.dens=.5, min.dim=50, max.dim=2000, gdalwarp, sigma=1e3, show.progress=TRUE, area.poly=NULL, remove.files=TRUE){
+makePixels <- function(x, y, factors, pixel.size=1e2, t.dens=.2, min.dim=50, max.dim=2000, gdalwarp, sigma=1e3, show.progress=TRUE, area.poly=NULL, remove.files=TRUE){
   
   if(requireNamespace("spatstat", quietly = TRUE)&requireNamespace("maptools", quietly = TRUE)){
     
+    if(is.na(proj4string(x))){ stop("Object 'x' missing SRS / proj4string") }
     if(missing(gdalwarp)){
       gdalwarp <- .programPath(utility="gdalwarp")
     }
@@ -96,6 +97,7 @@ makePixels <- function(x, y, factors, pixel.size=1e2, t.dens=.5, min.dim=50, max
       if (show.progress) { setTxtProgressBar(pb, i) }
     }
     if (show.progress) { close(pb) }
+    ## round up numbers:
     dens@data[,1] <- (dens@data[,1]/max(dens@data[,1], na.rm=TRUE))*1e2
     for(i in 1:length(y)){
       dens@data[,i+1] <- rgdal::readGDAL(out.fname[[i]])$band1[dens@grid.index]
@@ -105,10 +107,15 @@ makePixels <- function(x, y, factors, pixel.size=1e2, t.dens=.5, min.dim=50, max
     for(i in 1:length(y)){
       if(factors[i]){ dens@data[,i+1] = as.factor(dens@data[,i+1]) }
     }
-    return(dens)
-    if(remove.files==TRUE){
-      unlink(out.fname)
+    ## Remove all layers without any variation:
+    rm.v <- !sapply(dens@data, function(x){var(as.numeric(x), na.rm=TRUE)})>0
+    if(any(rm.v)){
+      dens <- dens[!rm.v]
     }
+    if(remove.files==TRUE){
+      unlink(unlist(out.fname))
+    }
+    return(dens)
   } else {
     stop("Missing packages 'maptools' and/or 'spatstat'")
   }
