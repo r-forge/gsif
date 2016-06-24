@@ -72,8 +72,8 @@ plot(rk2)
 m3 <- fit.regModel(log1p(om)~dist, rmatrix=ov, meuse.grid,
      method="lme", random=~1|ffreq)
 plot(m3)
-rk3 <- predict(m3, meuse.grid)
-plot(rk3)
+#rk3 <- predict(m3, meuse.grid)
+#plot(rk3)
 
 ## fit a randomForest model with variogram
 ## NOTE: no transformation required
