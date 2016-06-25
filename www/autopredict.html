@@ -1,23 +1,23 @@
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Auto predict numeric or factor type variables</title>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Autopredict numeric or factor type variables</title>
 <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
 <link rel="stylesheet" type="text/css" href="R.css" />
 </head><body>
 
 <table width="100%" summary="page for autopredict-methods {GSIF}"><tr><td>autopredict-methods {GSIF}</td><td style="text-align: right;">R Documentation</td></tr></table>
 
-<h2>Auto predict numeric or factor type variables</h2>
+<h2>Autopredict numeric or factor type variables</h2>
 
 <h3>Description</h3>
 
-<p>Fits either geostatistical model via the <code><a href="fit.gstatModel.html">fit.gstatModel</a></code> function (in the case of numeric variable) or a multinomial logistic regression model via the <code><a href="spmultinom.html">spmultinom</a></code> function (factor-type variable) and generates predictions.</p>
+<p>Fits a spatial prediction model via the <code><a href="fit.gstatModel.html">fit.gstatModel</a></code> function (in the case of numeric variable), or some classification algorithm (factor-type variable), and generates predictions. By defaults uses machine learning method (random forest) as implemented in the ranger package.</p>
 
 
 <h3>Usage</h3>
 
 <pre>
 ## S4 method for signature 'SpatialPointsDataFrame,SpatialPixelsDataFrame'
-autopredict(target,covariates, 
-     auto.plot=TRUE, ...)
+autopredict(target, covariates, 
+     auto.plot=TRUE, spc=TRUE, buffer.dist=TRUE, ...)
 </pre>
 
 
@@ -36,11 +36,24 @@ autopredict(target,covariates,
 <td>
 <p>logical; specifies whether to immediately plot the data via the plotKML function</p>
 </td></tr>
+<tr valign="top"><td><code>spc</code></td>
+<td>
+<p>logical; specifies whether to generate spatial predictive components</p>
+</td></tr>
+<tr valign="top"><td><code>buffer.dist</code></td>
+<td>
+<p>logical; specifies whether to use buffer distances as covariates</p>
+</td></tr>
 <tr valign="top"><td><code>...</code></td>
 <td>
 <p>other optional arguments that can be passed to <code>fit.gstatModel</code> or <code>spmultinom</code></p>
 </td></tr>
 </table>
+
+
+<h3>Details</h3>
+
+<p>For factor-type variables, classes with &lt;5 observations are automatically removed from analysis. Generation of principal components via the <code>spc</code> function and buffer distances can be time-consuming for large rasters.</p>
 
 
 <h3>Author(s)</h3>
@@ -56,16 +69,15 @@ autopredict(target,covariates,
 <h3>Examples</h3>
 
 <pre>
-## Ebergotzen data:
 library(sp)
 library(gstat)
 library(ranger)
 library(plotKML)
-library(psych)
-library(mda)
+library(raster)
 
-## load input data:
+## Ebergotzen data set:
 data(eberg)
+## subset to 10%
 eberg &lt;- eberg[runif(nrow(eberg))&lt;.1,]
 coordinates(eberg) &lt;- ~X+Y
 proj4string(eberg) &lt;- CRS("+init=epsg:31467")
@@ -76,12 +88,21 @@ proj4string(eberg_grid) &lt;- CRS("+init=epsg:31467")
 ## predict sand content:
 SNDMHT_A &lt;- autopredict(eberg["SNDMHT_A"], eberg_grid,
    auto.plot=FALSE)
-plot(SNDMHT_A)
+spplot(SNDMHT_A$predicted["SNDMHT_A"])
 
 ## predict soil types:
 soiltype &lt;- autopredict(eberg["soiltype"], eberg_grid, 
   auto.plot=FALSE)
-spplot(soiltype@predicted)
+spplot(soiltype$predicted, col.regions=R_pal[[2]])
+## most probable class:
+eberg_grid$soiltype &lt;- as.factor(apply(soiltype$predicted@data, 1, which.max))
+levels(eberg_grid$soiltype) = names(soiltype$predicted@data)
+spplot(eberg_grid["soiltype"])
+
+## Meuse data set:
+demo(meuse, echo=FALSE)
+zinc &lt;- autopredict(meuse["zinc"], meuse.grid[c("dist","ffreq")], auto.plot=FALSE)
+spplot(zinc$predicted["zinc"])
 </pre>
 
 <hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-2 <a href="00Index.html">Index</a>]</div>

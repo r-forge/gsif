@@ -2,10 +2,10 @@
 \alias{autopredict}
 \alias{makePixels}
 \alias{autopredict,SpatialPointsDataFrame,SpatialPixelsDataFrame-method}
-\title{Auto predict numeric or factor type variables}
-\description{Fits a default spatial prediction model via the \code{\link{fit.gstatModel}} function (in the case of numeric variable), or some classification algorithm (factor-type variable), and generates predictions.}
+\title{Autopredict numeric or factor type variables}
+\description{Fits a spatial prediction model via the \code{\link{fit.gstatModel}} function (in the case of numeric variable), or some classification algorithm (factor-type variable), and generates predictions. By defaults uses machine learning method (random forest) as implemented in the ranger package.}
 \usage{
-\S4method{autopredict}{SpatialPointsDataFrame,SpatialPixelsDataFrame}(target,covariates, 
+\S4method{autopredict}{SpatialPointsDataFrame,SpatialPixelsDataFrame}(target, covariates, 
      auto.plot=TRUE, spc=TRUE, buffer.dist=TRUE, \dots)
 }
 \arguments{
@@ -16,17 +16,19 @@
   \item{buffer.dist}{logical; specifies whether to use buffer distances as covariates}
   \item{\dots}{other optional arguments that can be passed to \code{fit.gstatModel} or \code{spmultinom}}
 }
+\details{For factor-type variables, classes with <5 observations are automatically removed from analysis. Generation of principal components via the \code{spc} function and buffer distances can be time-consuming for large rasters.}
 \author{ Tomislav Hengl}
 \seealso{ \code{\link{fit.gstatModel}} }
 \examples{
-## Ebergotzen data:
 library(sp)
 library(gstat)
 library(ranger)
 library(plotKML)
+library(raster)
 
-## load input data:
+## Ebergotzen data set:
 data(eberg)
+## subset to 10%
 eberg <- eberg[runif(nrow(eberg))<.1,]
 coordinates(eberg) <- ~X+Y
 proj4string(eberg) <- CRS("+init=epsg:31467")
@@ -43,4 +45,13 @@ spplot(SNDMHT_A$predicted["SNDMHT_A"])
 soiltype <- autopredict(eberg["soiltype"], eberg_grid, 
   auto.plot=FALSE)
 spplot(soiltype$predicted, col.regions=R_pal[[2]])
+## most probable class:
+eberg_grid$soiltype <- as.factor(apply(soiltype$predicted@data, 1, which.max))
+levels(eberg_grid$soiltype) = names(soiltype$predicted@data)
+spplot(eberg_grid["soiltype"])
+
+## Meuse data set:
+demo(meuse, echo=FALSE)
+zinc <- autopredict(meuse["zinc"], meuse.grid[c("dist","ffreq")], auto.plot=FALSE)
+spplot(zinc$predicted["zinc"])
 }

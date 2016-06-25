@@ -29,7 +29,6 @@
 \author{ Tomislav Hengl, Mario Antonio Guevara Santamaria and Bas Kempen}
 \seealso{ \code{\link{fit.gstatModel}}, \code{stats::glm}, \code{gstat::fit.variogram}, \code{randomForest::randomForest} }
 \examples{
-## Meuse data:
 library(sp)
 library(rpart)
 library(nlme)
@@ -93,6 +92,9 @@ m5 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
 plot(m5)
 rk5 <- predict(m5, meuse.grid)
 plot(rk5)
+dev.off()
+## plot prediction error map:
+spplot(rk5@predicted["var1.var"])
 
 ## ranger
 m6 <- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,

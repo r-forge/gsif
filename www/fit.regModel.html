@@ -101,7 +101,6 @@ fit.regModel(formulaString, rmatrix, predictionDomain,
 <h3>Examples</h3>
 
 <pre>
-## Meuse data:
 library(sp)
 library(rpart)
 library(nlme)
@@ -165,6 +164,9 @@ m5 &lt;- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
 plot(m5)
 rk5 &lt;- predict(m5, meuse.grid)
 plot(rk5)
+dev.off()
+## plot prediction error map:
+spplot(rk5@predicted["var1.var"])
 
 ## ranger
 m6 &lt;- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
