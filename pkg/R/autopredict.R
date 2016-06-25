@@ -41,15 +41,15 @@ setMethod("autopredict", signature(target = "SpatialPointsDataFrame", covariates
     ov <- over(x=target, y=covariates)
     ov <- cbind(as.data.frame(target), ov)
     ov <- ov[complete.cases(ov[,all.vars(fm)]),]
-    m <- ranger(fm, ov, importance="impurity", write.forest=TRUE, probability=TRUE)
+    m <- ranger::ranger(fm, ov, importance="impurity", write.forest=TRUE, probability=TRUE)
     p <- covariates[1]
     p@data <- data.frame(round(predict(m, covariates@data, probability=TRUE, na.action = na.pass)$predictions*100))
-    if(auto.plot==TRUE){ 
+    if(auto.plot==TRUE){
       kml_open(file.name=paste0(names(target)[1], "_predicted.kml"))
       for(j in names(p)){
         g = p[paste(j)]
         names(g) = "colour"
-        kml_layer(g, subfolder.name=paste(j), png.width=g@grid@cells.dim[1]*3, png.height=g@grid@cells.dim[1]*3, colour=colour, z.lim=c(0,50), raster_name=paste0(names(target)[1], "_predicted_", j, ".png"), colour_scale=R_pal[["heat_colors"]])
+        kml_layer(g, subfolder.name=paste(j), png.width=g@grid@cells.dim[1]*3, png.height=g@grid@cells.dim[1]*3, colour="colour", z.lim=c(0,50), raster_name=paste0(names(target)[1], "_predicted_", j, ".png"), colour_scale=R_pal[["heat_colors"]])
       }
       kml_layer(target, subfolder.name="observed", points_names=paste(target@data[,1]))
       kml_close(paste0(names(target)[1], "_predicted.kml"))
@@ -68,7 +68,9 @@ setMethod("autopredict", signature(target = "SpatialPointsDataFrame", covariates
     }
     ## predict:
     p <- predict(m, covariates)
-    if(auto.plot==TRUE){ plotKML(p, folder.name=names(target)[1], png.width=p@predicted@grid@cells.dim[1]*3, png.height=p@predicted@grid@cells.dim[1]*3, colour_scale=SAGA_pal[[1]], file.name=paste0(names(target)[1], "_predicted.kml")) }
+    if(auto.plot==TRUE){ 
+      plotKML(p, folder.name=names(target)[1], png.width=p@predicted@grid@cells.dim[1]*3, png.height=p@predicted@grid@cells.dim[1]*3, colour_scale=SAGA_pal[[1]], file.name=paste0(names(target)[1], "_predicted.kml"))
+    }
     p <- list(m, p@predicted, covariates)
     names(p) = c("model","predicted","covariates")
     return(p)
@@ -91,7 +93,7 @@ makePixels <- function(x, y, factors, pixel.size=1e2, t.dens=.2, min.dim=50, max
     ncol = round(abs(diff(x@bbox[1,]))/pixel.size); nrow = round(abs(diff(x@bbox[2,]))/pixel.size)
     if(nrow>max.dim|ncol>max.dim){ stop("Grid too large. Consider increasing 'pixel.size'") }
     if(nrow<min.dim|ncol<min.dim){ stop("Grid too small. Consider reducing 'pixel.size'") }
-    grid.owin <- owin(x@bbox[1,], x@bbox[2,], mask=matrix(TRUE,nrow,ncol))
+    grid.owin <- spatstat::owin(x@bbox[1,], x@bbox[2,], mask=matrix(TRUE,nrow,ncol))
     x.ppp <- spatstat::ppp(x=x@coords[,1], y=x@coords[,2], window=grid.owin)
     dens <- spatstat::density.ppp(x.ppp, sigma=sigma)
     dens <- maptools::as.SpatialGridDataFrame.im(dens)
@@ -119,7 +121,7 @@ makePixels <- function(x, y, factors, pixel.size=1e2, t.dens=.2, min.dim=50, max
       if(.Platform$OS.type == "windows"){
         fname <- normalizePath(y[i], winslash="/")
       } else {
-        fname <- normalizePath(y[i], sep="/")
+        fname <- normalizePath(y[i])
       }
       ## decide about whether to aggregate or downscale
       gi <- GDALinfo(fname)

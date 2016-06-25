@@ -14,7 +14,7 @@
   \item{auto.plot}{logical; specifies whether to immediately plot the data via the plotKML function}
   \item{spc}{logical; specifies whether to generate spatial predictive components}
   \item{buffer.dist}{logical; specifies whether to use buffer distances as covariates}
-  \item{\dots}{other optional arguments that can be passed to \code{fit.gstatModel} or \code{spmultinom}}
+  \item{\dots}{other optional arguments that can be passed to \code{fit.gstatModel}}
 }
 \details{For factor-type variables, classes with <5 observations are automatically removed from analysis. Generation of principal components via the \code{spc} function and buffer distances can be time-consuming for large rasters.}
 \author{ Tomislav Hengl}
