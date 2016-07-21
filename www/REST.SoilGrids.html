@@ -9,7 +9,7 @@
 
 <h3>Description</h3>
 
-<p>A class for <a href="http://rest.soilgrids.org/">SoilGrids REST API</a> Service. Can be used to overlay points or fetch grid values from SoilGrids Soil Information System.</p>
+<p>A class for <a href="https://rest.soilgrids.org/">SoilGrids REST API</a> Service. Can be used to overlay points or fetch grid values from SoilGrids Soil Information System.</p>
 
 
 <h3>Slots</h3>
@@ -50,7 +50,10 @@
 
 
 <ul>
-<li><p> SoilGrids &mdash; a system for automated soil mapping (<a href="http://www.soilgrids.org">http://www.soilgrids.org</a>)
+<li><p> SoilGrids &mdash; a system for automated soil mapping (<a href="https://www.soilgrids.org">https://www.soilgrids.org</a>)
+</p>
+</li>
+<li><p> REST API SoilGrids (<a href="http://rest.soilgrids.org">http://rest.soilgrids.org</a>)
 </p>
 </li></ul>
 
@@ -76,58 +79,10 @@ pnts
 ## REST example:
 soilgrids.r &lt;- REST.SoilGrids(c("ORCDRC","PHIHOX"))
 ov &lt;- over(soilgrids.r, pnts)
-ORCDRC.pnt1 &lt;- data.frame(
-  top=unlist(ov[1,grep("depthCodesMeters", names(ov))])*-100, 
-  M=unlist(ov[1,grep("ORCDRC.M", names(ov))]), 
-  L=unlist(ov[1,grep("ORCDRC.L", names(ov))]), 
-  U=unlist(ov[1,grep("ORCDRC.U", names(ov))]))
-ORCDRC.pnt1$variable &lt;- "ORCDRC"
-## plot the result:
-library(lattice)
-library(aqp)
-data(soil.legends)
-## Soil organic carbon:
-ORCDRC.range = range(soil.legends[["ORCDRC"]]$MIN, soil.legends[["ORCDRC"]]$MAX)
-dev.new(width=5, height=6)
-xyplot(top ~ M | variable, data=ORCDRC.pnt1, ylab='Depth in cm',
-  xlab='5th and 95th percentiles', xlim=ORCDRC.range,
-  lower=ORCDRC.pnt1$L, upper=ORCDRC.pnt1$U, ylim=c(150,0),
-  panel=panel.depth_function,
-  alpha=0.25, sync.colors=TRUE,
-  par.settings=list(superpose.line=list(col='RoyalBlue', lwd=3)),
-  strip=strip.custom(bg=grey(0.8))
-)
-
-## Soil pH:
-PHIHOX.range = range(soil.legends[["PHIHOX"]]$MIN, soil.legends[["PHIHOX"]]$MAX)
-for(i in 1:nrow(ov)){
-  PHIHOX.pnt &lt;- data.frame(
-    top=unlist(ov[i,grep("depthCodesMeters", names(ov))])*-100, 
-    M=unlist(ov[i,grep("PHIHOX.M", names(ov))]), 
-    L=unlist(ov[i,grep("PHIHOX.L", names(ov))]), 
-    U=unlist(ov[i,grep("PHIHOX.U", names(ov))]))
-  PHIHOX.pnt$variable &lt;- "PHIHOX"
-  png(paste("PHIHOX_depth_", i, ".png", sep=""), width=300, height=6/5*300)
-  p &lt;- xyplot(top ~ M/10 | variable, data=PHIHOX.pnt, ylab='Depth in cm',
-    xlab='5th and 95th percentiles', xlim=PHIHOX.range/10,
-    lower=PHIHOX.pnt$L/10, upper=PHIHOX.pnt$U/10, ylim=c(150,0),
-    panel=panel.depth_function,
-    alpha=0.25, sync.colors=TRUE,
-    par.settings=list(superpose.line=list(col='Red', lwd=3)),
-    strip=strip.custom(bg=grey(0.8))
-  )
-  print(p)
-  graphics.off()
-}
-## plot in Google Earth:
-library(plotKML)
-kml(pnts, colour=id, file="PHIHOX_depth.kml", 
-  shape=paste("PHIHOX_depth_", 1:nrow(ov), ".png", sep=""), 
-  size=6, points_names=pnts$id, 
-  colour_scale=rep("#FFFFFF", 2))
+str(ov)
 
 ## End(Not run)
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-3 <a href="00Index.html">Index</a>]</div>
 </body></html>

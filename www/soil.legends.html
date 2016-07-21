@@ -29,9 +29,9 @@
 </dd>
 <dt><code>PHIKCL</code></dt><dd><p>numeric; pH index measured in KCl solution</p>
 </dd>
-<dt><code>BLD</code></dt><dd><p>numeric; bulk density in kg per cubic meter</p>
+<dt><code>BLDFIE</code></dt><dd><p>numeric; bulk density (fine earth) in kg per cubic meter</p>
 </dd>
-<dt><code>CEC</code></dt><dd><p>numeric; Cation Exchange Capacity</p>
+<dt><code>CECSOL</code></dt><dd><p>numeric; Cation Exchange Capacity of soil</p>
 </dd>
 <dt><code>SNDPPT</code></dt><dd><p>numeric; weight percentage of the sand particles (0.05&ndash;2 mm)</p>
 </dd>
@@ -41,9 +41,11 @@
 </dd>
 <dt><code>CRFVOL</code></dt><dd><p>numeric; volumetric percentage of coarse fragments (&gt;2 mm)</p>
 </dd>
-<dt><code>TAXGWRB</code></dt><dd><p>factor; World Reference base groups</p>
-</dd>
 <dt><code>TAXOUSDA</code></dt><dd><p>factor; Keys to Soil Taxonomy suborders</p>
+</dd>
+<dt><code>TAXGWRB</code></dt><dd><p>factor; World Reference Base groups</p>
+</dd>
+<dt><code>TAXNWRB</code></dt><dd><p>factor; World Reference Base legend for SoilGrids250m</p>
 </dd>
 </dl>
 
@@ -51,7 +53,7 @@
 
 <h3>Note</h3>
 
-<p>Breaks for continuous soil properties were determined using the <code>quantiles</code> function and by visually inspecting the histograms to maximize the contrast in output maps. Based on a compilation of global soil profile data (see ISRIC WoSIS).</p>
+<p>Breaks for continuous soil properties were determined using the <code>quantiles</code> function and by visually inspecting the histograms to maximize the contrast in output maps. Based on a compilation of global soil profile data (see ISRIC's World Soil Information Service WoSIS).</p>
 
 
 <h3>Author(s)</h3>
@@ -64,6 +66,9 @@
 
 <ul>
 <li><p> Global Soil Information Facilities (<a href="http://gsif.isric.org">http://gsif.isric.org</a>)
+</p>
+</li>
+<li><p> SoilGrids automated global soil mapping system (<a href="https://soilgrids.org">https://soilgrids.org</a>)
 </p>
 </li></ul>
 
@@ -84,5 +89,5 @@ makeSAGAlegend(x=as.factor(names(pal)), col_pal=pal,
     filename="ORCDRC.txt")
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-2 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-3 <a href="00Index.html">Index</a>]</div>
 </body></html>
