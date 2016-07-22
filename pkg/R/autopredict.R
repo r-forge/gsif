@@ -41,8 +41,10 @@ setMethod("autopredict", signature(target = "SpatialPointsDataFrame", covariates
     ov <- over(x=target, y=covariates)
     ov <- cbind(as.data.frame(target), ov)
     ov <- ov[complete.cases(ov[,all.vars(fm)]),]
+    message("Fitting a random forest model using 'ranger'...")
     m <- ranger::ranger(fm, ov, importance="impurity", write.forest=TRUE, probability=TRUE)
     p <- covariates[1]
+    message("Generating predictions...")
     p@data <- data.frame(round(predict(m, covariates@data, probability=TRUE, na.action = na.pass)$predictions*100))
     if(auto.plot==TRUE){
       kml_open(file.name=paste0(names(target)[1], "_predicted.kml"))

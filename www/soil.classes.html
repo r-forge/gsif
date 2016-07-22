@@ -1,0 +1,86 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd"><html xmlns="http://www.w3.org/1999/xhtml"><head><title>R: Soil classification tables</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+<link rel="stylesheet" type="text/css" href="R.css" />
+</head><body>
+
+<table width="100%" summary="page for soil.classes {GSIF}"><tr><td>soil.classes {GSIF}</td><td style="text-align: right;">R Documentation</td></tr></table>
+
+<h2>Soil classification tables</h2>
+
+<h3>Description</h3>
+
+<p>Standard soil classification tables for the United States Department of Agriculture (USDA) and IUSS / FAO World Reference Base (WRB) classification systems, including the tables used to correlate various soil classification systems.</p>
+
+
+<h3>Usage</h3>
+
+<pre>data(soil.classes)</pre>
+
+
+<h3>Format</h3>
+
+<p>Contains a list of tables:
+</p>
+
+<dl>
+<dt><code>Canadian</code></dt><dd><p>data frame; Canadian soil classification system (Soil Classification Working Group, 1998)</p>
+</dd>
+<dt><code>FAO1990.WRB</code></dt><dd><p>data frame; FAO 1990 (FAO-Unesco Soil Classification System) system to WRB (2006)</p>
+</dd>
+<dt><code>USDA_GreatGroups</code></dt><dd><p>data frame; list of USDA Great Groups (USDA, 2010)</p>
+</dd>
+<dt><code>WRB_versions</code></dt><dd><p>data frame; correlation between various FAO/WRB versions (Krasilnikov et al. 2009)</p>
+</dd>
+<dt><code>FAO1974.WRB</code></dt><dd><p>data frame; correlation FAO 1974 system to WRB (IUSS Working Group WRB, 2006)</p>
+</dd>
+<dt><code>USDA.WRB</code></dt><dd><p>data frame; correlation USDA system to WRB system</p>
+</dd>
+<dt><code>Soils_World</code></dt><dd><p>data frame; referent soil profiles of the world (van Baren and Lof, 1987)</p>
+</dd>    
+</dl>
+
+
+
+<h3>Note</h3>
+
+<p>Some of the original tables from the literature have been adjusted / updated by the author. Correlation between various national and international systems often leads to multiple soil classes being possible equivalents. These are separated in tables using <code>"/"</code> symbol e.g. <code>Dark Gray Chernozem</code> = <code>Boralfic Boroll / Albolls</code>. Some national soil classification systems contain classes which are completely unique and hence most likely can not be correlated to any class in the target system.</p>
+
+
+<h3>Author(s)</h3>
+
+<p>Tomislav Hengl</p>
+
+
+<h3>References</h3>
+
+
+<ul>
+<li><p> van Baren, H. and Lof, P. (1987) Soils of the World, published by Elsevier in Association with ISRIC, FAO, and UNESCO ISBN 0444425756
+</p>
+</li>
+<li><p> Krasilnikov, P., Marti, J., Arnold, R., and Shoba, S., eds. (2009) A Handbook of Soil Terminology, Correlation and Classification, Earthscan LLC, pp. 448 ISBN 9781136546631
+</p>
+</li>
+<li><p> Soil Classification Working Group, (1998) The Canadian System of Soil Classification. 3rd Ed. Agriculture and Agri-Food Canada Publication 1646, 187 pp. ISBN 0660174049
+</p>
+</li>
+<li><p> USDA / Soil Survey Staff, (2010) Keys to Soil Taxonomy (Eleventh Edition) U.S. Department Of Agriculture, Natural Resources Conservation Service, 346 pp. ISBN 9781782662112
+</p>
+</li>
+<li><p> IUSS Working Group WRB (2006) World Reference Base for Soil Resources 2006: A Framework for International Classification, Correlation and Communication, Food and Agriculture Organization of the United Nations 128 pp.
+</p>
+</li></ul>
+
+
+
+<h3>Examples</h3>
+
+<pre>
+data(soil.classes)
+soil.classes$USDA_GreatGroups[1,]
+DGC &lt;- which(soil.classes$Canadian$CSSC_Great_Groups=="Dark Gray Chernozem")
+soil.classes$Canadian[DGC,]
+</pre>
+
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-3 <a href="00Index.html">Index</a>]</div>
+</body></html>
