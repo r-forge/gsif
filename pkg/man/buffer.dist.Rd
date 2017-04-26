@@ -37,6 +37,9 @@ m0 <- fit.gstatModel(meuse, fm0, grid.dist0,
     method="ranger", rvgm=NULL)
 rk.m0 <- predict(m0, grid.dist0)
 plot(rk.m0)
+dev.off()
+x = importance(m0)
+plot(x)
 ## not always most practical to calculate distance to each point
 
 ## Soil organic matter with breaks:
