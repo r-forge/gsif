@@ -13,7 +13,7 @@
   \item{width}{numeric; maximum search radius}
   \item{\dots}{other optional arguments that can be passed to \code{raster::distance}}
 }
-\note{Number of breaks (numeric resolution) should be higher than the number of bins, for example, estimated for the histogram display. Machine learning techniques can be quite sensitive to blunders / artifacts in the input point data. 
+\note{Number of breaks (numeric resolution) should be higher than the number of bins, for example, estimated for the histogram display. Machine learning techniques can be quite sensitive to blunders / artifacts in the input point data, hence use with caution. Deriving buffer distances for large rasters can be time-consuming. 
 }
 \author{ Tomislav Hengl}
 \seealso{ \code{\link{fit.gstatModel}} }
@@ -29,7 +29,17 @@ library(scales)
 ## Load the Meuse data set:
 demo(meuse, echo=FALSE)
 
-## Example with soil organic matter:
+## Soil organic matter (distance from any to all points):
+grid.dist0 <- buffer.dist(meuse["om"], meuse.grid[1], as.factor(1:nrow(meuse)))
+dn0 <- paste(names(grid.dist0), collapse="+")
+fm0 <- as.formula(paste("om ~", dn0))
+m0 <- fit.gstatModel(meuse, fm0, grid.dist0, 
+    method="ranger", rvgm=NULL)
+rk.m0 <- predict(m0, grid.dist0)
+plot(rk.m0)
+## not always most practical to calculate distance to each point
+
+## Soil organic matter with breaks:
 classes <- cut(meuse$om, breaks=seq(0, 17, length=8))
 ## are these optimal splits?
 grid.dist <- buffer.dist(meuse["om"], meuse.grid[1], classes)

@@ -48,7 +48,7 @@ buffer.dist(observations, predictionDomain, classes, width, ...)
 
 <h3>Note</h3>
 
-<p>Number of breaks (numeric resolution) should be higher than the number of bins, for example, estimated for the histogram display. Machine learning techniques can be quite sensitive to blunders / artifacts in the input point data. 
+<p>Number of breaks (numeric resolution) should be higher than the number of bins, for example, estimated for the histogram display. Machine learning techniques can be quite sensitive to blunders / artifacts in the input point data, hence use with caution. Deriving buffer distances for large rasters can be time-consuming. 
 </p>
 
 
@@ -75,6 +75,18 @@ library(scales)
 
 ## Load the Meuse data set:
 demo(meuse, echo=FALSE)
+
+## Soil organic matter (distance from any to all points):
+grid.dist0 &lt;- buffer.dist(meuse["om"], meuse.grid[1], as.factor(1:nrow(meuse)))
+dn0 &lt;- paste(names(grid.dist0), collapse="+")
+fm0 &lt;- as.formula(paste("om ~", dn0))
+m0 &lt;- fit.gstatModel(meuse, fm0, grid.dist0, 
+    method="ranger", rvgm=NULL)
+rk.m0 &lt;- predict(m0, grid.dist0)
+plot(rk.m0)
+## not always most practical to calculate distance to each point
+
+## Soil organic matter with breaks:
 classes &lt;- cut(meuse$om, breaks=seq(0, 17, length=8))
 ## are these optimal splits?
 grid.dist &lt;- buffer.dist(meuse["om"], meuse.grid[1], classes)
@@ -83,11 +95,11 @@ plot(stack(grid.dist))
 dn &lt;- paste(names(grid.dist), collapse="+")
 fm &lt;- as.formula(paste("om ~", dn))
 m &lt;- fit.gstatModel(meuse, fm, grid.dist, 
-    method="quantregForest")
+    method="quantregForest", rvgm=NULL)
 plot(m)
 dev.off()
 ## Residual variogram shows no spatial structure
-rk.m &lt;- predict(m, grid.dist, vgmmodel=NULL)
+rk.m &lt;- predict(m, grid.dist)
 plot(rk.m)
 dev.off()
 ## prediction error:
@@ -102,7 +114,8 @@ plotKML(meuse["classes"])
 
 ## End(Not run)
 
-## Example with zinc:
+## Not run: 
+## Combining geographical and feature space covariates:
 meuse.gridT &lt;- meuse.grid
 meuse.gridT@data &lt;- cbind(meuse.grid@data, grid.dist@data)
 fm1 &lt;- as.formula(paste("om ~", dn, "+soil+dist+ffreq"))
@@ -111,18 +124,18 @@ m1 &lt;- fit.gstatModel(meuse, fm1, meuse.gridT,
 ## no need to fit variogram in this case
 plot(m1)
 dev.off()
-rk.m1 &lt;- predict(m1, meuse.gridT, vgmmodel=NULL)
+rk.m1 &lt;- predict(m1, meuse.gridT)
 plot(rk.m1)
 varImpPlot(m1@regModel)
 dev.off()
-## Not run: 
 plotKML(rk.m1@predicted["om"], 
    file.name="rk_combined.kml", 
    colour_scale = SAGA_pal[[1]])
 
 ## End(Not run)
 
-## Zinc:
+## Not run: 
+## Example with zinc:
 classes2 &lt;- cut(meuse$zinc, 
    breaks=seq(min(meuse$zinc), max(meuse$zinc), length=10))
 grid.dist2 &lt;- buffer.dist(meuse["zinc"], meuse.grid[1], classes2)
@@ -131,14 +144,13 @@ meuse.gridT2 &lt;- meuse.grid
 meuse.gridT2@data &lt;- cbind(meuse.grid@data, grid.dist2@data)
 fm2 &lt;- as.formula(paste("zinc ~", dn2, "+soil+dist+ffreq"))
 m2 &lt;- fit.gstatModel(meuse, fm2, meuse.gridT2, 
-      method="quantregForest")
+      method="quantregForest", rvgm=NULL)
 varImpPlot(m2@regModel)
-rk.m2 &lt;- predict(m2, meuse.gridT2, vgmmodel=NULL)
+rk.m2 &lt;- predict(m2, meuse.gridT2)
 plot(rk.m2)
 dev.off()
 ## prediction error:
 plot(raster(rk.m2@predicted[2]))
-## Not run: 
 plotKML(rk.m2@predicted["zinc"], 
     file.name="rk_combined_zinc.kml", 
     colour_scale = SAGA_pal[[1]])
@@ -149,5 +161,5 @@ kml_View("zinc_points.kml")
 ## End(Not run)
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-3 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-4 <a href="00Index.html">Index</a>]</div>
 </body></html>

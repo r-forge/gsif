@@ -77,8 +77,8 @@ library(raster)
 
 ## Ebergotzen data set:
 data(eberg)
-## subset to 10%
-eberg &lt;- eberg[runif(nrow(eberg))&lt;.1,]
+## subset to 8%
+eberg &lt;- eberg[runif(nrow(eberg))&lt;.08,]
 coordinates(eberg) &lt;- ~X+Y
 proj4string(eberg) &lt;- CRS("+init=epsg:31467")
 data(eberg_grid)
@@ -87,12 +87,13 @@ proj4string(eberg_grid) &lt;- CRS("+init=epsg:31467")
 
 ## predict sand content:
 SNDMHT_A &lt;- autopredict(eberg["SNDMHT_A"], eberg_grid,
-   auto.plot=FALSE)
-spplot(SNDMHT_A$predicted["SNDMHT_A"])
+   auto.plot=FALSE, rvgm=NULL)
+plot(raster(SNDMHT_A$predicted["SNDMHT_A"]), col=SAGA_pal[[1]])
 
 ## predict soil types:
 soiltype &lt;- autopredict(eberg["soiltype"], eberg_grid, 
   auto.plot=FALSE)
+## Not run: 
 spplot(soiltype$predicted, col.regions=R_pal[[2]])
 ## most probable class:
 eberg_grid$soiltype &lt;- as.factor(apply(soiltype$predicted@data, 1, which.max))
@@ -101,9 +102,12 @@ spplot(eberg_grid["soiltype"])
 
 ## Meuse data set:
 demo(meuse, echo=FALSE)
-zinc &lt;- autopredict(meuse["zinc"], meuse.grid[c("dist","ffreq")], auto.plot=FALSE)
+zinc &lt;- autopredict(meuse["zinc"], meuse.grid[c("dist","ffreq")], 
+  auto.plot=FALSE, rvgm=NULL)
 spplot(zinc$predicted["zinc"])
+
+## End(Not run)
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-3 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-4 <a href="00Index.html">Index</a>]</div>
 </body></html>

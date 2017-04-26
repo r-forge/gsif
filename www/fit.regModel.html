@@ -158,6 +158,8 @@ plot(rk4)
 m4b &lt;- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="randomForest", mtry=2)
 plot(m4b)
+
+## Not run: 
 ## RF with uncertainty (quantregForest package)
 m5 &lt;- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
      method="quantregForest")
@@ -170,18 +172,20 @@ spplot(rk5@predicted["var1.var"])
 
 ## ranger
 m6 &lt;- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
-     method="ranger")
+     method="ranger", rvgm=NULL)
 plot(m6)
 rk6 &lt;- predict(m6, meuse.grid)
 plot(rk6)
 
 ## XGBoost
 m7 &lt;- fit.regModel(om~dist+ffreq, rmatrix=ov, meuse.grid,
-     method="xgboost")
+     method="xgboost", rvgm=NULL)
 plot(m7)
 rk7 &lt;- predict(m7, meuse.grid)
 plot(rk7)
+
+## End(Not run)
 </pre>
 
-<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-3 <a href="00Index.html">Index</a>]</div>
+<hr /><div style="text-align: center;">[Package <em>GSIF</em> version 0.5-4 <a href="00Index.html">Index</a>]</div>
 </body></html>
