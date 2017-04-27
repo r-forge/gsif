@@ -25,6 +25,7 @@ library(randomForest)
 library(quantregForest)
 library(plotKML)
 library(scales)
+library(ranger)
 
 ## Load the Meuse data set:
 demo(meuse, echo=FALSE)
