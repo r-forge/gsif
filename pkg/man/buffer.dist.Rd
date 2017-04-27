@@ -29,6 +29,7 @@ library(scales)
 ## Load the Meuse data set:
 demo(meuse, echo=FALSE)
 
+\dontrun{
 ## Soil organic matter (distance from any to all points):
 grid.dist0 <- buffer.dist(meuse["om"], meuse.grid[1], as.factor(1:nrow(meuse)))
 dn0 <- paste(names(grid.dist0), collapse="+")
@@ -38,9 +39,10 @@ m0 <- fit.gstatModel(meuse, fm0, grid.dist0,
 rk.m0 <- predict(m0, grid.dist0)
 plot(rk.m0)
 dev.off()
-x = importance(m0)
+x = importance(m0@regModel)
 plot(x)
 ## not always most practical to calculate distance to each point
+}
 
 ## Soil organic matter with breaks:
 classes <- cut(meuse$om, breaks=seq(0, 17, length=8))
