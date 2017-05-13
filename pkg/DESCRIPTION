@@ -10,8 +10,9 @@ Authors@R: c(person("Tomislav", "Hengl", role = c("cre", "aut"), email = "tom.he
 Maintainer: Tomislav Hengl <tom.hengl@isric.org>
 Depends: R (>= 2.15.0)
 Imports: methods, sp (>= 1.0-8), RSAGA, dismo, rgdal, raster, aqp, plotKML, gstat, stats, plyr, grDevices, graphics, scales
-Suggests: rjson, RCurl, soiltexture, spatstat, stringr, XML, boot, splines, mda, psych, nortest, rpart, quantregForest, randomForest, nlme, reshape, fossil, AICcmodavg, maptools, nnet, SDMTools, rJava (>= 0.5-0), spacetime, gdalUtils, tools, maxlike, Hmisc, caret, xgboost, ranger, snowfall
+Suggests: rjson, RCurl, soiltexture, spatstat, stringr, XML, boot, splines, mda, psych, nortest, rpart, quantregForest, randomForest, nlme, reshape, fossil, AICcmodavg, maptools, nnet, SDMTools, spacetime, gdalUtils, tools, maxlike, Hmisc, caret, xgboost, ranger, snowfall
 Description: Global Soil Information Facilities - tools (standards and functions) and sample datasets for global soil mapping.
 License: GPL
 URL: http://gsif.r-forge.r-project.org/
 LazyLoad: yes
+RoxygenNote: 6.0.1
