@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1546529116956.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4056186595",
+    "id" : "C9855A3D",
+    "lastKnownWriteTime" : 1546529126,
+    "last_content_update" : 1546529126681,
+    "path" : "/data/git/gsif/pkg/R/spmultinom.R",
+    "project_path" : "pkg/R/spmultinom.R",
+    "properties" : {
+        "cursorPosition" : "10,30",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 5,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

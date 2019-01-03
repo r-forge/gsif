@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1546529113107.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4156166145",
+    "id" : "6CEF0674",
+    "lastKnownWriteTime" : 1546529126,
+    "last_content_update" : 1546529126625,
+    "path" : "/data/git/gsif/pkg/R/buffer.dist.R",
+    "project_path" : "pkg/R/buffer.dist.R",
+    "properties" : {
+        "cursorPosition" : "1,55",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 4,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

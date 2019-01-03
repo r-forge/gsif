@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1546526812283.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "80AB9CEF",
+    "lastKnownWriteTime" : 1546527904,
+    "last_content_update" : 1546527904934,
+    "path" : "/data/git/gsif/pkg/DESCRIPTION",
+    "project_path" : "pkg/DESCRIPTION",
+    "properties" : {
+        "cursorPosition" : "12,31",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 1,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "dcf"
+}

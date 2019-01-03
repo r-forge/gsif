@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1546529100107.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "4060972330",
+    "id" : "DBD9A09",
+    "lastKnownWriteTime" : 1546529126,
+    "last_content_update" : 1546529126576,
+    "path" : "/data/git/gsif/pkg/R/autopredict.R",
+    "project_path" : "pkg/R/autopredict.R",
+    "properties" : {
+        "cursorPosition" : "1,45",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 3,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_source"
+}

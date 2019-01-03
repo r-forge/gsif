@@ -1,0 +1,22 @@
+{
+    "collab_server" : "",
+    "contents" : "",
+    "created" : 1546528716251.000,
+    "dirty" : false,
+    "encoding" : "UTF-8",
+    "folds" : "",
+    "hash" : "0",
+    "id" : "1B7D283B",
+    "lastKnownWriteTime" : 1546528781,
+    "last_content_update" : 1546528781512,
+    "path" : "/data/git/gsif/pkg/man/GlobalSoilMap.Rd",
+    "project_path" : "pkg/man/GlobalSoilMap.Rd",
+    "properties" : {
+        "cursorPosition" : "2,17",
+        "scrollLine" : "0"
+    },
+    "relative_order" : 2,
+    "source_on_save" : false,
+    "source_window" : "",
+    "type" : "r_doc"
+}
